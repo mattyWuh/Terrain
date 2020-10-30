@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FractalComposition : MonoBehaviour
+public class ProceduralComposition : MonoBehaviour
 {
     // Editor settings
     [Header("Trunk Settings")]

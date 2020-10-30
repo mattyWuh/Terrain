@@ -71,7 +71,7 @@ public class FractalComposition : MonoBehaviour
 
 
     // Private variables
-    private FractalObject trunk;
+    private ProceduralObject trunk;
     private GameObject leafConnector;
     private float radius = 0f;
 
@@ -91,7 +91,7 @@ public class FractalComposition : MonoBehaviour
 
     void ConstructTrunk()
     {
-        trunk = new GameObject("Trunk").AddComponent<FractalObject>();
+        trunk = new GameObject("Trunk").AddComponent<ProceduralObject>();
 
         trunk.mesh = trunkMesh;
         trunk.material = trunkMaterial;
@@ -106,7 +106,7 @@ public class FractalComposition : MonoBehaviour
         trunk.position = this.transform.position + Vector3.up * trunk.scale.y / 2f; 
         trunk.rotation = this.transform.rotation;
 
-        trunk.ConstructChild(this.transform);
+        trunk.Construct(this.transform);
     }
 
     void ConstructBranch()
@@ -115,7 +115,7 @@ public class FractalComposition : MonoBehaviour
         branchConnector.transform.parent = trunk.transform;
         branchConnector.transform.position = trunk.transform.position + Vector3.up * Random.Range(0f, trunk.scale.y /2f);
 
-        FractalObject branch = new GameObject("Branch").AddComponent<FractalObject>();
+        ProceduralObject branch = new GameObject("Branch").AddComponent<ProceduralObject>();
         branch.mesh = branchMesh;
         branch.material = branchMaterial;
 
@@ -130,7 +130,7 @@ public class FractalComposition : MonoBehaviour
         branch.position = branchConnector.transform.position;
         
 
-        branch.ConstructChild(branchConnector.transform);
+        branch.Construct(branchConnector.transform);
         branch.transform.position += branch.transform.up * branch.scale.y / 2;
 
         if (length > radius)
@@ -148,7 +148,7 @@ public class FractalComposition : MonoBehaviour
         }
         
 
-        FractalObject leaf = new GameObject("Leaf").AddComponent<FractalObject>();
+        ProceduralObject leaf = new GameObject("Leaf").AddComponent<ProceduralObject>();
         leaf.mesh = leafMesh;
         leaf.material = leafMaterial;
 
@@ -170,7 +170,7 @@ public class FractalComposition : MonoBehaviour
             Random.Range(-radius, radius)
         );
 
-        leaf.ConstructChild(leafConnector.transform);
+        leaf.Construct(leafConnector.transform);
 
     }
 }

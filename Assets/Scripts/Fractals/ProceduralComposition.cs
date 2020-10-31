@@ -243,30 +243,56 @@ public class ProceduralComposition : MonoBehaviour
         // Generate leaf within chosen shape.
         switch (aggregateLeafShape)
         {
+            // Cone with radius limited by longest branch and height of longest
+            // branch.
+            case AggregateLeafShapes.cone:
+                float bottom = -radius / 2.0f;
+                float h = Random.Range(bottom, radius);
+                float rhoCone = Random.Range(0.0f, radius * (h - radius) / (bottom - radius));
+                float phiCone = Random.Range(0.0f, 2.0f) * Mathf.PI;
+                position += new Vector3(
+                    rhoCone * Mathf.Cos(phiCone),
+                    h,
+                    rhoCone * Mathf.Sin(phiCone)
+                );
+                break;
+
             // Cube with XZ dimensions limited by longest branch and Y
             // dimension limited by 3/4 of longest branch.
             case AggregateLeafShapes.cube:
                 position += new Vector3(
                     Random.Range(-radius, radius),
-                    Random.Range(-radius / 2f, radius),
+                    Random.Range(-radius / 2.0f, radius),
                     Random.Range(-radius, radius)
+                );
+                break;
+            
+            // Cylinder with radius of longest branch Y dimension limited by
+            // 3/4 of longest branch.
+            case AggregateLeafShapes.cylinder:
+                float rhoCylinder = Random.Range(0.0f, radius);
+                float phiCylinder = Random.Range(0.0f, 2.0f) * Mathf.PI;
+                position += new Vector3(
+                    rhoCylinder * Mathf.Cos(phiCylinder),
+                    Random.Range(-radius / 2.0f, radius),
+                    rhoCylinder * Mathf.Sin(phiCylinder)
                 );
                 break;
 
             // Sphere with radius of longest branch, sweeping down to 70% of 
             // total sphere.
             case AggregateLeafShapes.sphere:
-                float rho = Random.Range(0.0f, radius);
-                float theta = Random.Range(0.0f, 0.7f) * Mathf.PI;
-                float phi = Random.Range(0.0f, 2.0f) * Mathf.PI;
+                float rhoSphere = Random.Range(0.0f, radius);
+                float thetaSphere = Random.Range(0.0f, 0.7f) * Mathf.PI;
+                float phiSphere = Random.Range(0.0f, 2.0f) * Mathf.PI;
                 position += new Vector3(
-                    rho * Mathf.Sin(theta) * Mathf.Cos(phi),
-                    rho * Mathf.Cos(theta),
-                    rho * Mathf.Sin(theta) * Mathf.Sin(phi)
+                    rhoSphere * Mathf.Sin(thetaSphere) * Mathf.Cos(phiSphere),
+                    rhoSphere * Mathf.Cos(thetaSphere),
+                    rhoSphere * Mathf.Sin(thetaSphere) * Mathf.Sin(phiSphere)
                 );
                 break;
         }
-        
+
         ProceduralObject leaf = _ConstructObject(
             "Leaf",
             leafConnector.transform,

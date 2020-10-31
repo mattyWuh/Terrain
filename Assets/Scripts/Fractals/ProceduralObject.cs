@@ -27,4 +27,21 @@ public class ProceduralObject : MonoBehaviour
         this.transform.localScale = scale;
     }
 
+    public virtual void Construct(
+        Transform parentTransform,
+        Mesh iniMesh, 
+        Material iniMaterial, 
+        Vector3 iniScale, 
+        Vector3 iniPosition, 
+        Quaternion iniRotation
+    ){
+        gameObject.AddComponent<MeshFilter>().mesh = iniMesh;
+        gameObject.AddComponent<MeshRenderer>().material = iniMaterial;
+        
+        this.transform.parent = parentTransform;
+        this.transform.position = iniPosition;
+        this.transform.rotation = iniRotation;
+        this.transform.localScale = iniScale;
+    }
+
 }
